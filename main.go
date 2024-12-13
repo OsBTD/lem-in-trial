@@ -99,12 +99,13 @@ func Graph(farm farm) map[string][]string {
 	for room := range farm.rooms {
 		adjacent[room] = []string{}
 	}
-	for room := range adjacent {
-		for rooms, links := range farm.links {
-			if rooms == room {
-				adjacent[room] = links
-			}
+	for room, links := range farm.links {
+		for _, link := range links {
+			adjacent[room] = append(adjacent[room], link)
+			adjacent[link] = append(adjacent[link], room)
+
 		}
 	}
+
 	return adjacent
 }
