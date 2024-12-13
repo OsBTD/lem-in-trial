@@ -25,6 +25,7 @@ func main() {
 	fmt.Println("start is : ", myFarm.start)
 	fmt.Println("end is : ", myFarm.end)
 	fmt.Println("links are : ", myFarm.links)
+	fmt.Println("adjacent is : ", Graph(myFarm))
 }
 
 func (myFarm *farm) Read(filename string) {
@@ -91,4 +92,19 @@ func (myFarm *farm) Read(filename string) {
 	if en != 1 || st != 1 {
 		log.Println("rooms setup is incorrect", err)
 	}
+}
+
+func Graph(farm farm) map[string][]string {
+	adjacent := make(map[string][]string)
+	for room := range farm.rooms {
+		adjacent[room] = []string{}
+	}
+	for room := range adjacent {
+		for rooms, links := range farm.links {
+			if rooms == room {
+				adjacent[room] = links
+			}
+		}
+	}
+	return adjacent
 }
