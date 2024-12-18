@@ -60,7 +60,7 @@ func (myFarm *farm) Read(filename string) {
 
 			}
 
-		} else if strings.TrimSpace(content[index]) == "##end" && index+1 <= len(content)-1 {
+		} else if strings.TrimSpace(content[index]) == "##end" {
 			en++
 			if index+1 <= len(content)-1 {
 				split := strings.Split(strings.TrimSpace(content[index+1]), " ")
@@ -108,4 +108,34 @@ func Graph(farm farm) map[string][]string {
 	}
 
 	return adjacent
+}
+
+func BFS() {
+	var myFarm farm
+	adjacent := Graph(myFarm)
+
+	start := myFarm.start
+	end := myFarm.end
+	var forwardQueue []string
+	var backwardQueue []string
+
+	for startkey := range start {
+		forwardQueue = append(forwardQueue, startkey)
+	}
+	for endkey := range end {
+		backwardQueue = append(backwardQueue, endkey)
+	}
+
+	forwardVisited := make(map[string]bool)
+	backwardVisited := make(map[string]bool)
+
+	forwardParents := make(map[string]string)
+	backwardParents := make(map[string]string)
+
+	for room, links := range adjacent {
+		for link := range links {
+			Queue = append(Queue, room)
+			Visited[room] = true
+		}
+	}
 }
