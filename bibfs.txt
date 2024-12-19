@@ -1,0 +1,48 @@
+func BFS() {
+	var myFarm farm
+	adjacent := Graph(myFarm)
+
+	start := myFarm.start
+	end := myFarm.end
+	var forwardQueue []string
+	var backwardQueue []string
+	forwardVisited := make(map[string]bool)
+	backwardVisited := make(map[string]bool)
+	forwardParents := make(map[string]string)
+	backwardParents := make(map[string]string)
+
+	for startkey := range start {
+		forwardQueue = append(forwardQueue, startkey)
+	}
+	for endkey := range end {
+		backwardQueue = append(backwardQueue, endkey)
+	}
+	forwardVisited[forwardQueue[0]] = true
+	backwardVisited[backwardQueue[0]] = true
+	for len(forwardQueue) > 0 && len(backwardQueue) > 0 {
+
+		fcurrentnode := forwardQueue[0]
+		bcurrentnode := backwardQueue[0]
+
+		forwardQueue = forwardQueue[1:]
+		backwardQueue = backwardQueue[1:]
+
+		for _, link := range adjacent[fcurrentnode] {
+			if !forwardVisited[fcurrentnode] || !backwardVisited[bcurrentnode] {
+				forwardVisited[fcurrentnode] = true
+				
+				backwardQueue = append(backwardQueue, bcurrentnode)
+			} else {
+				continue
+			}
+
+			if !backwardVisited[fcurrentnode] {
+				forwardQueue = append(forwardQueue, link)
+				forwardParents[link] = fcurrentnode
+			} else {
+				return
+			}
+
+		}
+
+	}
