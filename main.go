@@ -119,40 +119,20 @@ func BFS(myFarm farm) {
 	Visited := make(map[string]bool)
 	Parents := make(map[string]string)
 
-	fmt.Println("\n=== Initialization ===")
-	fmt.Println("Start room map:", start)
-	fmt.Println("Adjacent list:", adjacent)
-
 	// Initialize with start room
 	for key := range start {
 		Queue = append(Queue, key)
 		Visited[key] = true
-		fmt.Printf("\nAdding start room '%s' to queue\n", key)
-		fmt.Printf("Current visited map: %v\n", Visited)
 	}
 
 	for key := range end {
 		endd = key
-		fmt.Printf("\nEnd room is: '%s'\n", endd)
 	}
 
-	fmt.Printf("\n=== Starting BFS Traversal ===\n")
-	fmt.Printf("Initial queue: %v\n", Queue)
-
-	stepCount := 1
-	// Modified loop condition to handle both empty queue and end room discovery
 	for len(Queue) > 0 {
 		current := Queue[0]
 		Queue = Queue[1:]
-
-		fmt.Printf("\n--- Step %d ---\n", stepCount)
-		fmt.Printf("Processing room: '%s'\n", current)
-		fmt.Printf("Current parent map: %v\n", Parents)
-		fmt.Printf("Connected to rooms: %v\n", adjacent[current])
-
-		// Check if we've reached the end room
 		if current == endd {
-			fmt.Printf("\n!!! Found end room '%s' - Breaking BFS !!!\n", endd)
 			break
 		}
 
@@ -161,33 +141,20 @@ func BFS(myFarm farm) {
 				Queue = append(Queue, link)
 				Visited[link] = true
 				Parents[link] = current
-				fmt.Printf("\nDiscovered new room: '%s'\n", link)
-				fmt.Printf("Updated parent map - added: '%s' → '%s'\n", link, current)
-				fmt.Printf("Current queue: %v\n", Queue)
-				fmt.Printf("Current visited map: %v\n", Visited)
-			} else {
-				fmt.Printf("\nRoom '%s' already visited (parent: '%s')\n", link, Parents[link])
 			}
 		}
-		stepCount++
 	}
 
 	// Check if we actually found a path
 	if !Visited[endd] {
-		fmt.Printf("\n=== No path found to end room ===\n")
+		fmt.Printf("\n No path found to end room \n")
 		return
 	}
 
-	fmt.Printf("\n=== BFS Complete ===\n")
-	fmt.Printf("Final parent map: %v\n", Parents)
-
-	fmt.Printf("\n=== Path Reconstruction ===\n")
 	path := []string{endd}
 	current := endd
-	fmt.Printf("Starting from end room: '%s'\n", current)
 
 	for Parents[current] != "" {
-		fmt.Printf("Parent of '%s' is '%s'\n", current, Parents[current])
 		current = Parents[current]
 		path = append([]string{current}, path...)
 	}
