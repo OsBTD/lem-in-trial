@@ -145,7 +145,6 @@ func BFS(myFarm farm) {
 		}
 	}
 
-	// Check if we actually found a path
 	if !Visited[endd] {
 		fmt.Printf("\n No path found to end room \n")
 		return
